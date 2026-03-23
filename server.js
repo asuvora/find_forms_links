@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const rateLimit = require('express-rate-limit');
 const path = require('path');
 require('dotenv').config();
 
@@ -13,14 +12,6 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
-
-// Rate limiting
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 минут
-    max: 10, // максимум 10 запросов с одного IP
-    message: 'Слишком много запросов. Попробуйте позже.'
-});
-app.use('/api/scan', limiter);
 
 // Валидация URL
 function validateUrl(url) {
@@ -51,12 +42,9 @@ app.post('/api/scan', async (req, res) => {
     try {
         const scanner = new SiteScanner(url, maxPages, delay);
         
-        // Используем Server-Sent Events для прогресса
         res.setHeader('Content-Type', 'text/event-stream');
         res.setHeader('Cache-Control', 'no-cache');
         res.setHeader('Connection', 'keep-alive');
-        
-        let finalResult = null;
         
         const progressCallback = (progress) => {
             res.write(`data: ${JSON.stringify({ type: 'progress', data: progress })}\n\n`);
