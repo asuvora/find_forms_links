@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Scanner Service - Поиск форм на сайтах</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>
+                <span class="icon">🔍</span>
+                Form Scanner Service
+            </h1>
+            <p>Поиск Яндекс и Google форм на любом сайте</p>
+        </header>
+
+        <div class="scanner-card">
+            <form id="scanForm">
+                <div class="input-group">
+                    <label for="url">URL сайта</label>
+                    <input 
+                        type="url" 
+                        id="url" 
+                        name="url" 
+                        placeholder="https://example.com"
+                        required
+                        autocomplete="off"
+                    >
+                    <small>Введите полный URL сайта (с http:// или https://)</small>
+                </div>
+
+                <div class="options">
+                    <div class="input-group">
+                        <label for="maxPages">Максимум страниц</label>
+                        <input 
+                            type="number" 
+                            id="maxPages" 
+                            name="maxPages" 
+                            value="50"
+                            min="1"
+                            max="200"
+                        >
+                        <small>От 1 до 200 страниц</small>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="delay">Задержка (мс)</label>
+                        <input 
+                            type="number" 
+                            id="delay" 
+                            name="delay" 
+                            value="500"
+                            min="100"
+                            max="2000"
+                        >
+                        <small>Пауза между запросами (100-2000 мс)</small>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary" id="scanBtn">
+                    <span class="btn-icon">🚀</span>
+                    Начать сканирование
+                </button>
+            </form>
+        </div>
+
+        <div id="progress" class="progress-section" style="display: none;">
+            <div class="progress-card">
+                <h3>Сканирование в процессе</h3>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <span class="stat-label">Проверено страниц:</span>
+                        <span class="stat-value" id="scannedCount">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">В очереди:</span>
+                        <span class="stat-value" id="queueCount">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Найдено форм:</span>
+                        <span class="stat-value" id="formsFound">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Ошибок:</span>
+                        <span class="stat-value" id="errorsCount">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="results" class="results-section" style="display: none;">
+            <div class="results-card">
+                <div class="results-header">
+                    <h2>Результаты сканирования</h2>
+                    <button id="exportBtn" class="btn-secondary">📥 Экспорт в JSON</button>
+                </div>
+                
+                <div class="summary">
+                    <div class="summary-item">
+                        <strong>Всего страниц:</strong>
+                        <span id="totalPages">0</span>
+                    </div>
+                    <div class="summary-item">
+                        <strong>Найдено форм:</strong>
+                        <span id="totalForms">0</span>
+                    </div>
+                </div>
+
+                <div id="formsList" class="forms-list"></div>
+
+                <div id="errorsList" class="errors-list" style="display: none;">
+                    <h3>Ошибки при сканировании</h3>
+                    <div id="errorsContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
