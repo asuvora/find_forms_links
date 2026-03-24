@@ -35,8 +35,8 @@ app.post('/api/scan', async (req, res) => {
         return res.status(400).json({ error: 'Неверный URL. Используйте http:// или https://' });
     }
     
-    if (maxPages > 200) {
-        return res.status(400).json({ error: 'Максимум страниц не может превышать 200' });
+    if (maxPages > 2000) {
+        return res.status(400).json({ error: 'Максимум страниц не может превышать 2000' });
     }
     
     try {
